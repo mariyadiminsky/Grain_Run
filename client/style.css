@@ -1,0 +1,48 @@
+#grains-box .glyphicon {
+	margin: 0.3em;
+	font-size: 1.75em;
+}
+
+#grains-box, #answer-box {
+	width: 40%;
+	float: left;
+}
+
+#button-game {
+	width: 20%;
+	float: left;
+	text-align: center;
+	margin-top: 70px;
+}
+
+#grains-box .well, #answer-box .well {
+	height: 200px;
+}
+
+#numbers-box .number, #numbers-box .numberdisabled-normal, #numbers-box .numberdisabled-accepted, #answer-box .number{
+	display: inline-block;
+	margin: 0.5em;
+	width: 30px;
+	text-align: center;
+	font-size: 22px;
+	border-radius: 50%;
+}
+
+#numbers-box .numberdisabled-normal, #numbers-box .numberdisabled-accepted {
+	cursor: not-allowed;
+}
+
+#numbers-box .numberdisabled-normal {
+	background-color: #e8e8e8;
+	color: #d3d3d3;
+}
+
+#numbers-box .numberdisabled-accepted {
+	background-color: #aaddaa;
+	color: #99bb99
+}
+
+#numbers-box .number, #answer-box .number {
+	background-color: #bbb;
+	cursor: pointer;
+}
