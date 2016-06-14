@@ -14,7 +14,6 @@ class AnswerBox extends React.Component{
 				<div className="number" onClick={props.unClickedNum.bind(null, num)}>{num}</div>
 			)
 		});
-
 		if(props.response !== null) {
 			toShow = this.props.response;
 		}else {

@@ -53,7 +53,7 @@ class Game extends React.Component{
 	clickedNum(clickedNumber) {
 		this.setState({
 			selectedNumbers:this.state.selectedNumbers.concat(clickedNumber),
-			isCorrect: null,
+			isCorrect: null
 		})
 	}
 
