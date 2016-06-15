@@ -15,7 +15,7 @@ class AnswerBox extends React.Component{
 			)
 		});
 		if(props.response !== null) {
-			toShow = this.props.response;
+			toShow = <div className="response">{props.response}</div>
 		}else {
 			toShow = selectedNums;
 		}

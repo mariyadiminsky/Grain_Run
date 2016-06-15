@@ -103,10 +103,11 @@
 			_this.state = {
 				numGrains: _this.randomNum(),
 				isCorrect: null,
-				refreshAmount: 5,
+				refreshAmount: 10,
 				selectedNumbers: [],
 				acceptedNumbers: [],
-				finishedGame: null
+				finishedGame: null,
+				response: null
 			};
 
 			// ES6 React doesn't support auto-binding
@@ -129,10 +130,11 @@
 				this.state = {
 					numGrains: this.randomNum(),
 					isCorrect: null,
-					refreshAmount: 5,
+					refreshAmount: 10,
 					selectedNumbers: [],
 					acceptedNumbers: [],
-					finishedGame: null
+					finishedGame: null,
+					response: null
 				};
 			}
 
@@ -151,7 +153,8 @@
 			value: function clickedNum(clickedNumber) {
 				this.setState({
 					selectedNumbers: this.state.selectedNumbers.concat(clickedNumber),
-					isCorrect: null
+					isCorrect: null,
+					response: null
 				});
 			}
 		}, {
@@ -194,12 +197,15 @@
 		}, {
 			key: 'acceptAnswer',
 			value: function acceptAnswer() {
+				var possibleResponses = ["You did it!", "Great job!", "Keep it going!", "You got this!", "Don't give up!", "Look at you go!", "You can do it!", "Sasha believes in you!", "Sasha's counting on you!", "You're almost there!"];
+				var newResponse = possibleResponses[Math.floor(Math.random() * 10)];
 				var newAcceptedNums = this.state.acceptedNumbers.concat(this.state.selectedNumbers);
 				this.setState({
 					acceptedNumbers: newAcceptedNums,
 					selectedNumbers: [],
 					isCorrect: null,
-					numGrains: this.randomNum()
+					numGrains: this.randomNum(),
+					response: newResponse
 				}, function () {
 					this.updateFinishedGameResult();
 				});
@@ -212,7 +218,8 @@
 						numGrains: this.randomNum(),
 						isCorrect: null,
 						refreshAmount: this.state.refreshAmount - 1,
-						selectedNumbers: []
+						selectedNumbers: [],
+						response: null
 					}, function () {
 						this.updateFinishedGameResult();
 					});
@@ -237,12 +244,18 @@
 			key: 'updateFinishedGameResult',
 			value: function updateFinishedGameResult() {
 				if (this.state.acceptedNumbers.length === 9) {
-					this.setState({ finishedGame: "Done. Nice job!" });
+					this.setState({
+						finishedGame: "YAY!! YOU WON THE GAME! SASHA IS GRATEFUL FOR YOUR HARD WORK!",
+						response: null
+					});
 					return;
 				}
 
 				if (this.state.refreshAmount === 0 && !this.possibleSolutions()) {
-					this.setState({ finishedGame: "Game Over!" });
+					this.setState({
+						finishedGame: "Game Over!",
+						response: null
+					});
 					return;
 				}
 			}
@@ -267,7 +280,7 @@
 					_react2.default.createElement(
 						'h2',
 						null,
-						' Play the Game! '
+						' Grain Run! '
 					),
 					_react2.default.createElement('hr', null),
 					_react2.default.createElement(
@@ -275,7 +288,7 @@
 						{ className: 'clearfix' },
 						_react2.default.createElement(_grainsBox2.default, { numGrains: this.state.numGrains }),
 						_react2.default.createElement(_button2.default, { selectedNums: this.state.selectedNumbers, isCorrect: this.state.isCorrect, chkAnswer: this.chkAnswer, acceptAnswer: this.acceptAnswer, refreshGrains: this.refreshGrains, refreshAmount: this.state.refreshAmount }),
-						_react2.default.createElement(_answerBox2.default, { selectedNums: this.state.selectedNumbers, unClickedNum: this.unClickedNum })
+						_react2.default.createElement(_answerBox2.default, { selectedNums: this.state.selectedNumbers, unClickedNum: this.unClickedNum, response: this.state.response })
 					),
 					gameStatus,
 					_react2.default.createElement(_rules2.default, null)
@@ -20413,6 +20426,22 @@
 		_createClass(FinishedBox, [{
 			key: "render",
 			value: function render() {
+				var aGif = void 0;
+
+				if (this.props.finishedGame === "Game Over!") {
+					aGif = _react2.default.createElement(
+						"p",
+						null,
+						_react2.default.createElement("img", { src: "http://bestanimations.com/Military/Explosions/funny-explosion-animated-gif-7.gif" })
+					);
+				} else {
+					aGif = _react2.default.createElement(
+						"p",
+						null,
+						_react2.default.createElement("img", { src: "https://m.popkey.co/a3c6f3/EaGD_f-maxage-0.gif" })
+					);
+				}
+
 				return _react2.default.createElement(
 					"div",
 					{ id: "finished-game", className: "well text-center" },
@@ -20421,10 +20450,11 @@
 						null,
 						this.props.finishedGame
 					),
+					aGif,
 					_react2.default.createElement(
 						"button",
-						{ className: "btn btn-default", onClick: this.props.resetGame },
-						" Play Again "
+						{ className: "btn btn-default play-again", onClick: this.props.resetGame },
+						" Play Again? "
 					)
 				);
 			}
@@ -20620,21 +20650,21 @@
 					case true:
 						theBtn = _react2.default.createElement(
 							'div',
-							{ className: 'btn btn-success btn-lg', onClick: this.props.acceptAnswer },
+							{ className: 'btn btn-success btn-lg chk-btn', onClick: this.props.acceptAnswer },
 							_react2.default.createElement('span', { className: 'glyphicon glyphicon-ok' })
 						);
 						break;
 					case false:
 						theBtn = _react2.default.createElement(
 							'div',
-							{ className: 'btn btn-danger btn-lg' },
+							{ className: 'btn btn-danger btn-lg chk-btn' },
 							_react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
 						);
 						break;
 					default:
 						theBtn = _react2.default.createElement(
 							'div',
-							{ className: 'btn btn-primary btn-lg', onClick: this.props.chkAnswer, disabled: disabled },
+							{ className: 'btn btn-warning btn-lg chk-btn', onClick: this.props.chkAnswer, disabled: disabled },
 							'='
 						);
 				}
@@ -20648,7 +20678,7 @@
 					_react2.default.createElement('br', null),
 					_react2.default.createElement(
 						'button',
-						{ className: 'btn btn-warning btn-xs', onClick: this.props.refreshGrains, disabled: this.props.refreshAmount === 0 },
+						{ className: 'btn btn-warning btn-lg', onClick: this.props.refreshGrains, disabled: this.props.refreshAmount === 0 },
 						_react2.default.createElement('span', { className: 'glyphicon glyphicon-refresh' }),
 						' ',
 						this.props.refreshAmount
@@ -20702,6 +20732,7 @@
 			value: function render() {
 				// important because can't be accessed inside variable
 				var props = this.props;
+				var toShow = void 0;
 				var selectedNums = props.selectedNums.map(function (num) {
 					return _react2.default.createElement(
 						"div",
@@ -20709,13 +20740,23 @@
 						num
 					);
 				});
+				if (props.response !== null) {
+					toShow = _react2.default.createElement(
+						"div",
+						{ className: "response" },
+						props.response
+					);
+				} else {
+					toShow = selectedNums;
+				}
+
 				return _react2.default.createElement(
 					"div",
 					{ id: "answer-box" },
 					_react2.default.createElement(
 						"div",
 						{ className: "well text-center" },
-						selectedNums
+						toShow
 					)
 				);
 			}
@@ -20777,9 +20818,9 @@
 						null,
 						"Well Hillibilly do da! Come along boys and girls!",
 						_react2.default.createElement("br", null),
-						" Race against time to help your friend Sasha collect all the grains on her daddy's farm land!",
+						" Help your friend Sasha collect all the grains on her daddy's farm land!",
 						_react2.default.createElement("br", null),
-						"Can you find the right number of grains before sunrise?",
+						"Can you find the right number of grains?",
 						_react2.default.createElement("br", null)
 					),
 					_react2.default.createElement(

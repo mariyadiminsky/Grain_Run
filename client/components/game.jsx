@@ -14,11 +14,11 @@ class Game extends React.Component{
 		this.state = {
 			numGrains: this.randomNum(),
 			isCorrect: null,
-			refreshAmount: 5,
+			refreshAmount: 6,
 			selectedNumbers: [],
 			acceptedNumbers: [],
 			finishedGame: null,
-			response: "TEST"
+			response: null
 		}
 		
 		// ES6 React doesn't support auto-binding
@@ -36,11 +36,11 @@ class Game extends React.Component{
 		this.state = {
 			numGrains: this.randomNum(),
 			isCorrect: null,
-			refreshAmount: 5,
+			refreshAmount: 6 ,
 			selectedNumbers: [],
 			acceptedNumbers: [],
 			finishedGame: null,
-			response: "TEST"
+			response: null
 		}
 	}
 	
@@ -53,7 +53,8 @@ class Game extends React.Component{
 	clickedNum(clickedNumber) {
 		this.setState({
 			selectedNumbers:this.state.selectedNumbers.concat(clickedNumber),
-			isCorrect: null
+			isCorrect: null,
+			response: null
 		})
 	}
 
@@ -88,7 +89,8 @@ class Game extends React.Component{
 		+ setState is asynchronous by nature, but gives a second parameter to use when the first parameters is done, similar to a then promise.
 	*/
 	acceptAnswer() {
-		let newResponse = "You dit it!";
+		var possibleResponses = ["You did it!", "Great job!", "Keep it going!", "You got this!", "Don't give up!", "Look at you go!", "You can do it!", "Sasha believes in you!", "Sasha's counting on you!", "You're almost there!"]
+		let newResponse = possibleResponses[Math.floor((Math.random() * 10))];
 		let newAcceptedNums = this.state.acceptedNumbers.concat(this.state.selectedNumbers);
 		this.setState({
 			acceptedNumbers: newAcceptedNums,
@@ -107,7 +109,8 @@ class Game extends React.Component{
 				numGrains: this.randomNum(),
 				isCorrect: null,
 				refreshAmount: this.state.refreshAmount-1,
-				selectedNumbers:[]
+				selectedNumbers:[],
+				response: null
 			}, function() {
 			this.updateFinishedGameResult();
 			})
@@ -130,12 +133,18 @@ class Game extends React.Component{
 	
 	updateFinishedGameResult() {
 		if(this.state.acceptedNumbers.length === 9) {
-			this.setState({finishedGame: "Nice job! Sasha is grateful for your good work!"});
+			this.setState({
+				finishedGame: "YAY!! YOU WON THE GAME! SASHA IS GRATEFUL FOR YOUR HARD WORK!",
+				response: null
+			});
 			return;
 		}
 		
 		if(this.state.refreshAmount === 0 && !this.possibleSolutions()) {
-			this.setState({finishedGame: "Game Over!"});
+			this.setState({
+				finishedGame: "Game Over!",
+				response: null
+			});
 			return;
 		}
 	}
@@ -158,7 +167,7 @@ class Game extends React.Component{
 		}
 		return (
 			<div id="game" className="text-center">
-				<h2> CHANGED H2 TAG NOT RENDERING! </h2>
+				<h2> Grain Run! </h2>
 				<hr />
 				<div className="clearfix">
 					<GrainsBox numGrains={this.state.numGrains}/>
