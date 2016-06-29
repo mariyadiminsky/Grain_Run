@@ -17,5 +17,3 @@ Go to file.
 Enter *npm start*.   
 Enter *localhost:3000* in the url.   
 Customize it the way you'd like and Have fun! :heart:
-
-![alt text](/gamepreview.png)
