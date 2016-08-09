@@ -14,6 +14,7 @@ HINT: Refresh only when you really need to.
 Open your git command.  
 Download or clone this repo.    
 Go to file.   
+Enter *npm install*
 Enter *npm start*.   
 Enter *localhost:3000* in the url.   
 Customize it the way you'd like and Have fun! :heart:
